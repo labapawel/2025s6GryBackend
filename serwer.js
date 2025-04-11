@@ -3,6 +3,8 @@ const https = require('https');
 const fs = require('fs');
 const cors = require('cors');
 const io=require('socket.io');
+const { Client } = require('./lib/client.js');
+const { Gracze } = require('./lib/gracze.js');
 require('dotenv').config();
 
 const corsOptions = {
@@ -29,6 +31,18 @@ const ss = io(server, {
         methods: ['GET', 'POST'],
     }
 });
+
+let gracze = new Gracze(); // tablica graczy
+
 ss.on('connection', (socket) => {
-    console.log('A user connected');
-});
+    let unqId = socket.handshake.query.unqId;
+    let gra = gracze.dodajGracza(unqId, socket); // dodanie gracza do tablicy graczy
+    gra.aktualizujTabliceGracza(unqId); // aktualizacja planszy gracza
+
+
+    socket.on('modTablice', (data) => {
+        gra.modyfikujPlansze(unqId, data); // modyfikacja planszy gracza
+    });
+
+
+}); 
