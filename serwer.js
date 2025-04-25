@@ -38,10 +38,11 @@ ss.on('connection', (socket) => {
     let unqId = socket.handshake.query.unqId;
     let gra = gracze.dodajGracza(unqId, socket); // dodanie gracza do tablicy graczy
     gra.aktualizujTabliceGracza(unqId); // aktualizacja planszy gracza
-
+    gra.wyslijStanGry();
 
     socket.on('modTablice', (data) => {
         gra.modyfikujPlansze(unqId, data); // modyfikacja planszy gracza
+        gra.wyslijStanGry();
     });
 
 
