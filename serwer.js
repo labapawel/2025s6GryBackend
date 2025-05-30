@@ -35,13 +35,19 @@ const ss = io(server, {
 let gracze = new Gracze(); // tablica graczy
 
 ss.on('connection', (socket) => {
+    console.log(gracze.gracze.length);
+    
     let unqId = socket.handshake.query.unqId;
     let gra = gracze.dodajGracza(unqId, socket); // dodanie gracza do tablicy graczy
+
     gra.aktualizujTabliceGracza(unqId); // aktualizacja planszy gracza
     gra.wyslijStanGry();
+    // console.log(gracze.gracze);
+    
 
     socket.on('modTablice', (data) => {
         gra.modyfikujPlansze(unqId, data); // modyfikacja planszy gracza
+        //  console.log(gracze.gracze.length);
         gra.wyslijStanGry();
     });
 
