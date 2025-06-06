@@ -9,7 +9,7 @@ require('dotenv').config();
 
 const corsOptions = {
     origin: '*',
-    methods: ['GET', 'POST'],
+    methods: ['GET', 'POST'], 
 };
 
 const app = express();
@@ -42,12 +42,13 @@ ss.on('connection', (socket) => {
 
     gra.aktualizujTabliceGracza(unqId); // aktualizacja planszy gracza
     gra.wyslijStanGry();
-    // console.log(gracze.gracze);
+    gra.ustawienieStatkow(); // ustawienie statków gracza
+    // console.log(gracze.gracze); 
     
 
-    socket.on('modTablice', (data) => {
-        gra.modyfikujPlansze(unqId, data); // modyfikacja planszy gracza
-        //  console.log(gracze.gracze.length);
+    socket.on('modTablice', (data, ships) => {
+        gra.modyfikujPlansze(unqId, data, ships); // modyfikacja planszy gracza
+         console.log('data', data, ships);
         gra.wyslijStanGry();
     });
 
