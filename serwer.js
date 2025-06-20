@@ -45,6 +45,11 @@ ss.on('connection', (socket) => {
     gra.ustawienieStatkow(); // ustawienie statków gracza
     // console.log(gracze.gracze); 
     
+    socket.on('akcjaGracza', id=>{
+       gra.akcjaGracza(unqId, id); // akcja gracza, klikanie pola gry
+       gra.wyslijStanGry(); // wysłanie stanu gry do obu graczy 
+
+    });
 
     socket.on('modTablice', (data, ships) => {
         gra.modyfikujPlansze(unqId, data, ships); // modyfikacja planszy gracza
